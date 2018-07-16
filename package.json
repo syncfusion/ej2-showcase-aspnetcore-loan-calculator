@@ -12,15 +12,5 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/syncfusion/ej2-showcase-aspnetcore-loan-calculator.git"
-	},
-	"devDependencies": {
-		"json-beautify": "^1.0.1",
-		"elasticlunr": "0.9.5",
-		"glob": "^7.1.2",
-		"gulp": "^3.9.1",
-		"gulp-dotnet-cli": "^1.0.2",
-		"require-dir": "^0.3.2",
-		"shelljs": "^0.7.0",
-		"simple-git": "^1.43.0"
 	}
 }

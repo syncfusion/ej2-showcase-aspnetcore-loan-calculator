@@ -1,0 +1,205 @@
+﻿@using Syncfusion.EJ2;
+@{
+    ViewBag.Title = "MVC - Loan Calculator";
+}
+<style>
+    #payment_pieChart {
+        display: block !important;
+    }
+</style>
+<h2 class="header-style">Loan Calculator</h2>
+<div class="container main-content" id="content">
+    <div class="row left-content-wrap">
+        <div class="row loan-content">
+            <div class="left-content col-lg-12">
+                <div class="row form-space">
+                    <div class="col-lg-12">
+                        <div class="content-space">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label class="pricipal">Loan Amount</label>
+                                    </td>
+                                    <td>
+                                        <div class="editor-space">
+                                            <ejs-numerictextbox id="principal_txt" min="1000" value="300000" format="c0" max="5000000" step="10000" width="200px" change="principal_txtChange"></ejs-numerictextbox>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <ejs-slider id="pricipal" min="0" value="300000" max="500000" step="10000" type="@Syncfusion.EJ2.Inputs.SliderType.MinRange" change="principalChange" changed="principalChanged" renderedTicks="principalRenderedTicks" >
+                            <e-slider-ticksdata placement="@Syncfusion.EJ2.Inputs.Placement.After" largeStep="100000" smallStep="10000" showSmallTicks="false" format="c0"></e-slider-ticksdata>
+                        </ejs-slider>
+                    </div>
+                </div>
+                <div class="row form-space">
+                    <div class="col-lg-12">
+                        <div class="content-space">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label class="interestrate">Interest Rate</label>
+                                    </td>
+                                    <td>
+                                        <div class="editor-space">
+                                            <ejs-numerictextbox id="interest_txt" min="0" value="5.5" format="#.## ' %'" max="20" step="0.25" width="165px" change="interest_txtChange"></ejs-numerictextbox>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <ejs-slider id="interestrate" min="0" value="5.5" max="20" step="0.25" type="@Syncfusion.EJ2.Inputs.SliderType.MinRange" change="interestrateChange" changed="interestrateChanged">
+                            <e-slider-ticksdata placement="@Syncfusion.EJ2.Inputs.Placement.After" largeStep="5" smallStep="1" showSmallTicks="false"></e-slider-ticksdata>
+                        </ejs-slider>
+                    </div>
+                </div>
+                <div class="row form-space">
+                    <div class="col-lg-12">
+                        <div class="content-space">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label class="loantenure">Loan Term</label>
+                                        <ul class="tenure-value" style="float: left;">
+                                            <li>
+                                                <ejs-radiobutton id="radio1" label="Month" name="tenure" value="month" change="radio1Change"></ejs-radiobutton>
+                                            </li>
+                                            <li>
+                                                <ejs-radiobutton id="radio2" label="Year" name="tenure" value="year" checked="true" change="radio2Change"></ejs-radiobutton>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <div class="editor-space">
+                                            <ejs-numerictextbox id="loan_txt" min="1" value="15" format="#.##" max="40" step="1" width="150px" change="loan_txtChange"></ejs-numerictextbox>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <ejs-slider id="loantenure" min="0" value="15" max="40" step="1" type="@Syncfusion.EJ2.Inputs.SliderType.MinRange" change="loantenureChange" changed="loantenureChanged">
+                            <e-slider-ticksdata placement="@Syncfusion.EJ2.Inputs.Placement.After" largeStep="10" smallStep="1" showSmallTicks="false"></e-slider-ticksdata>
+                        </ejs-slider>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row loan-content">
+            <div class="col-lg-12 emi-content">
+                <div>
+                    <h6 class="emi-header">Break-up of Total Payment</h6>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7">
+                        <ejs-accumulationchart id="payment_pieChart" pointRender="payment_pieChartPointRender" enableSmartLabels="true" height="365px" width="100%" background="#27304c">
+                            <e-accumulationchart-legendsettings visible="false"></e-accumulationchart-legendsettings>
+                            <e-accumulationchart-tooltipsettings enable="false"></e-accumulationchart-tooltipsettings>
+                            <e-accumulation-series-collection>
+                                <e-accumulation-series radius="80%" xName="x" yName="y" startAngle="290" endAngle="290" innerRadius="60%" explode="true" explodeOffset="10%" explodeIndex="3" animation="ViewBag.animation">
+                                </e-accumulation-series>
+                            </e-accumulation-series-collection>
+                        </ejs-accumulationchart>
+                    </div>
+                    <div class="col-lg-5 pie-content" id="pieContent">
+                        <div>
+                            <p><span class="pie-icon pie-principal"></span>Principal Amount</p>
+                            <h5 id="loan_principal"></h5>
+                        </div>
+                        <div>
+                            <p><span class="pie-icon pie-interest"></span>Total Interest</p>
+                            <h5 id="loan_interest"></h5>
+                        </div>
+                        <div class="pie-total">
+                            <span>
+                                <p>Total Payment</p>
+                                <p>(Principal + Interest)</p>
+                            </span>
+                            <h5 id="loan_total_payment"></h5>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h6 class="emi-footer">Your Monthly Payment</h6>
+                    <h1 id="loan_emi"></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row top-space loan-content" style="text-align: center">
+        <div class="graph-text">Monthly payments starting from</div>
+        <div class="graph-input">
+            <ejs-datepicker id="monthStarter" start="@Syncfusion.EJ2.Calendars.CalendarView.Year" depth="@Syncfusion.EJ2.Calendars.CalendarView.Year"
+                placeholder="Enter Date" format="MMM yyy" value="@System.DateTime.Today" showClearButton="false" width="250px"
+                strictMode="true" showTodayButton="false" change="monthStarterChange">
+            </ejs-datepicker>
+        </div>
+    </div>
+    <div class="row top-space loan-content max-content">
+        <h6 class="center-heading">Amortization Chart</h6>
+        <div class="col-lg-12 graph-container">
+            <ejs-chart id="paymentGraph" enableSideBySidePlacement="false" chartMouseUp="paymentGraphChartMouseup" height="500px"
+                useGroupingSeparator="true" background="#27304c" axisLabelRender="paymentGraphAxisLabelRender" palettes="ViewBag.palettes">
+                <e-series-collection>
+                    <e-series type="@Syncfusion.EJ2.Charts.ChartSeriesType.StackingColumn" columnWidth="0.425" xName="yearN"
+                        width="2" yName="yearPrincipal" name="Principal Paid" yAxisName="yAxis" marker="ViewBag.markerSeries1">
+                    </e-series>
+                    <e-series type="@Syncfusion.EJ2.Charts.ChartSeriesType.StackingColumn" columnWidth="0.425" xName="yearN"
+                        width="2" yName="yearInterest" name="Interest Paid" yAxisName="yAxis" marker="ViewBag.markerSeries2">
+                    </e-series>
+                    <e-series type="@Syncfusion.EJ2.Charts.ChartSeriesType.Line" xName="yearN" width="2" yName="endingBalance"
+                        name="Balance" marker="ViewBag.markerSeries3">
+                    </e-series>
+                </e-series-collection>
+                <e-chart-primaryxaxis title="Years" valueType="@Syncfusion.EJ2.Charts.ValueType.DateTime" labelFormat="y"
+                   majorGridLines="ViewBag.majorGridLines" titleStyle="ViewBag.titleStyle" labelStyle="ViewBag.labelStyle"
+                   lineStyle="ViewBag.lineStyle" minorTickLines="ViewBag.minorTickLines" majorTickLines="ViewBag.majorTickLines" minorGridLines="ViewBag.minorGridLines">
+                </e-chart-primaryxaxis>
+                <e-chart-primaryyaxis title="Balance" labelFormat="c0" rangePadding="@Syncfusion.EJ2.Charts.ChartRangePadding.None"
+                    titleStyle="ViewBag.titleStyle" labelStyle="ViewBag.yAxisLabelStyle" lineStyle="ViewBag.yAxisLineStyle"
+                    minorTickLines="ViewBag.yAxisMinorTickLines" majorTickLines="ViewBag.yAxisMajorTickLines" minorGridLines="ViewBag.yAxisMinorGridLines"
+                    majorGridLines="ViewBag.yAxisMajorGridLines">
+                </e-chart-primaryyaxis>
+                <e-chart-axes>
+                    <e-chart-axis rowIndex="0" opposedPosition="true" name="yAxis" title="Payment" labelFormat="c0"
+                     majorGridLines="ViewBag.axesMajorGridLines" minorGridLines="ViewBag.axesMinorGridLines" majorTickLines="ViewBag.axesMajorTickLines"
+                     minorTickLines="ViewBag.axesMinorTickLines" lineStyle="ViewBag.axesLineStyle" labelStyle="ViewBag.axesLabelStyle"
+                     titleStyle="ViewBag.axesTitleStyle">
+                    </e-chart-axis>
+                </e-chart-axes>
+                <e-chart-tooltipsettings enable="true" shared="true" fill="#FFFFFF" opacity="1" textStyle="ViewBag.tooltipTextStyle"></e-chart-tooltipsettings>
+                <e-chart-chartarea border="ViewBag.chartAreaBorder"></e-chart-chartarea>
+                <e-chart-legendsettings textStyle="ViewBag.legendTextStyle"></e-chart-legendsettings>
+            </ejs-chart>
+        </div>
+    </div>
+    <div class="row top-space loan-content max-content">
+        <h6 class="center-heading">Amortization Schedule</h6>
+        <ejs-grid id="scheduleGrid" width="100%" childGrid="ViewBag.childGrid">
+            <e-grid-columns>
+                <e-grid-column field="Year" headerText="Year" minWidth="80px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" template="#columntemplate"></e-grid-column>
+                <e-grid-column field="yearTotal" headerText="Payment" minWidth="120px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" format="C0"></e-grid-column>
+                <e-grid-column field="yearPrincipal" headerText="Principal Paid" minWidth="120px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" format="C0"></e-grid-column>
+                <e-grid-column field="yearInterest" headerText="Interest Paid" minWidth="120px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" format="C0"></e-grid-column>
+                <e-grid-column field="endingBalance" headerText="Balance" minWidth="80px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" format="C0"></e-grid-column>
+            </e-grid-columns>
+        </ejs-grid>
+    </div>
+    <svg style="height: 0; width: 0;">
+        <defs>
+            <linearGradient id="principal_svg" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0"></stop>
+                <stop offset="1"></stop>
+            </linearGradient>
+            <linearGradient id="interest_svg" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0"></stop>
+                <stop offset="1"></stop>
+            </linearGradient>
+        </defs>
+    </svg>
+    <script id="columntemplate" type="text/x-template">
+        <div class="e-icons e-icon-grightarrow e-row-toggle"></div>
+        <span style="padding-left: 12px;">${year}</span>
+    </script>
+</div>
+<script src="~/scripts/index.js"></script>

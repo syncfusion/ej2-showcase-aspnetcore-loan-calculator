@@ -22,8 +22,5 @@
 		"require-dir": "^0.3.2",
 		"shelljs": "^0.7.0",
 		"simple-git": "^1.43.0"
-	},
-	"scripts": {
-		"aspnet-publish": "gulp dotnet-publish"		
 	}
 }

@@ -113,7 +113,7 @@ function principal_txtChange(args) {
     }
 }
 function loan_txtChange() {
-    if (tenure.value) {
+    if (tenure.value && loantenureObj.value != tenure.value) {
         loantenureObj.setProperties({ value: tenure.value });
     }
     refreshUI();

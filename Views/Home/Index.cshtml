@@ -96,7 +96,8 @@
                             <e-accumulationchart-legendsettings visible="false"></e-accumulationchart-legendsettings>
                             <e-accumulationchart-tooltipsettings enable="false"></e-accumulationchart-tooltipsettings>
                             <e-accumulation-series-collection>
-                                <e-accumulation-series radius="80%" xName="x" yName="y" startAngle="290" endAngle="290" innerRadius="60%" explode="true" explodeOffset="10%" explodeIndex="3" animation="ViewBag.animation">
+                                <e-accumulation-series radius="80%" xName="x" yName="y" startAngle="290" endAngle="290" innerRadius="60%" explode="true" explodeOffset="10%" explodeIndex="3">
+                                    <e-accumulationseries-animation enable="true"></e-accumulationseries-animation>
                                 </e-accumulation-series>
                             </e-accumulation-series-collection>
                         </ejs-accumulationchart>
@@ -142,34 +143,56 @@
                 useGroupingSeparator="true" background="#27304c" axisLabelRender="paymentGraphAxisLabelRender" palettes="ViewBag.palettes">
                 <e-series-collection>
                     <e-series type="@Syncfusion.EJ2.Charts.ChartSeriesType.StackingColumn" columnWidth="0.425" xName="yearN"
-                        width="2" yName="yearPrincipal" name="Principal Paid" yAxisName="yAxis" marker="ViewBag.markerSeries1">
+                              width="2" yName="yearPrincipal" name="Principal Paid" yAxisName="yAxis">
+                        <e-series-marker visible="true" height="10" width="10"></e-series-marker>
                     </e-series>
                     <e-series type="@Syncfusion.EJ2.Charts.ChartSeriesType.StackingColumn" columnWidth="0.425" xName="yearN"
-                        width="2" yName="yearInterest" name="Interest Paid" yAxisName="yAxis" marker="ViewBag.markerSeries2">
+                              width="2" yName="yearInterest" name="Interest Paid" yAxisName="yAxis">
+                        <e-series-marker visible="true" height="10" width="10"></e-series-marker>
                     </e-series>
                     <e-series type="@Syncfusion.EJ2.Charts.ChartSeriesType.Line" xName="yearN" width="2" yName="endingBalance"
-                        name="Balance" marker="ViewBag.markerSeries3">
+                              name="Balance">
+                        <e-series-marker visible="true" height="10" width="10" fill="#60448D"></e-series-marker>
                     </e-series>
                 </e-series-collection>
                 <e-chart-primaryxaxis title="Years" valueType="@Syncfusion.EJ2.Charts.ValueType.DateTime" labelFormat="y"
-                   majorGridLines="ViewBag.majorGridLines" titleStyle="ViewBag.titleStyle" labelStyle="ViewBag.labelStyle"
-                   lineStyle="ViewBag.lineStyle" minorTickLines="ViewBag.minorTickLines" majorTickLines="ViewBag.majorTickLines" minorGridLines="ViewBag.minorGridLines">
+                                      titleStyle="ViewBag.titleStyle">
+                      <e-labelstyle color = "#989CA9" fontFamily = "Roboto" fontWeight = "400" size = "12px"></e-labelstyle>                
+                    <e-linestyle width = "1" dashArray = "2" color = "rgba(255,255,255,0.2)"></e-linestyle>
+                    <e-minorgridlines width="0.00001"></e-minorgridlines>
+                    <e-majorticklines width="0.00001"></e-majorticklines>
+                    <e-minorgridlines width="0.00001"></e-minorgridlines>
+                    <e-majorgridlines width="0.00001"></e-majorgridlines>
                 </e-chart-primaryxaxis>
                 <e-chart-primaryyaxis title="Balance" labelFormat="c0" rangePadding="@Syncfusion.EJ2.Charts.ChartRangePadding.None"
-                    titleStyle="ViewBag.titleStyle" labelStyle="ViewBag.yAxisLabelStyle" lineStyle="ViewBag.yAxisLineStyle"
-                    minorTickLines="ViewBag.yAxisMinorTickLines" majorTickLines="ViewBag.yAxisMajorTickLines" minorGridLines="ViewBag.yAxisMinorGridLines"
-                    majorGridLines="ViewBag.yAxisMajorGridLines">
+                                      titleStyle="ViewBag.titleStyle" labelStyle="ViewBag.yAxisLabelStyle">
+                    <e-labelstyle color = "#989CA9" fontFamily = "Roboto" fontWeight = "400" size = "16px"></e-labelstyle>
+                    <e-majorgridlines width="1" dashArray="2" color="rgba(255,255,255,0.2)"></e-majorgridlines>
+                    <e-linestyle width="0.00001"></e-linestyle>
+                    <e-minorticklines width="0.00001"></e-minorticklines>
+                    <e-majorticklines width="0.00001"></e-majorticklines>
+                    <e-minorgridlines width="0.0001"></e-minorgridlines>
                 </e-chart-primaryyaxis>
                 <e-chart-axes>
                     <e-chart-axis rowIndex="0" opposedPosition="true" name="yAxis" title="Payment" labelFormat="c0"
-                     majorGridLines="ViewBag.axesMajorGridLines" minorGridLines="ViewBag.axesMinorGridLines" majorTickLines="ViewBag.axesMajorTickLines"
-                     minorTickLines="ViewBag.axesMinorTickLines" lineStyle="ViewBag.axesLineStyle" labelStyle="ViewBag.axesLabelStyle"
-                     titleStyle="ViewBag.axesTitleStyle">
+                                  titleStyle="ViewBag.axesTitleStyle">
+                        <e-labelstyle color = "#989CA9" fontFamily = "Roboto" fontWeight = "400" size = "16px"></e-labelstyle>
+                        <e-linestyle width="0.00001"></e-linestyle>
+                        <e-majorgridlines width="0.00001"></e-majorgridlines>
+                        <e-minorgridlines width="0.00001"></e-minorgridlines>
+                        <e-majorticklines width="0.00001"></e-majorticklines>
+                        <e-minorticklines width="0.00001"></e-minorticklines>
                     </e-chart-axis>
                 </e-chart-axes>
-                <e-chart-tooltipsettings enable="true" shared="true" fill="#FFFFFF" opacity="1" textStyle="ViewBag.tooltipTextStyle"></e-chart-tooltipsettings>
-                <e-chart-chartarea border="ViewBag.chartAreaBorder"></e-chart-chartarea>
-                <e-chart-legendsettings textStyle="ViewBag.legendTextStyle"></e-chart-legendsettings>
+                <e-chart-tooltipsettings enable="true" shared="true" fill="#FFFFFF" opacity="1">
+                    <e-tooltipsettings-textstyle  color = "#555555" fontFamily = "Roboto" fontWeight = "400" size = "12px"></e-tooltipsettings-textstyle>
+                </e-chart-tooltipsettings>
+                <e-chart-chartarea>
+                    <e-chartarea-border Width = "0" ></e-chartarea-border>
+                </e-chart-chartarea>
+                <e-chart-legendsettings>
+                    <e-legendsettings-textstyle color = "#FFFFFF" fontFamily = "Raleway, sans-serif" fontWeight = "600" size = "16px" opacity = "0.62" ></e-legendsettings-textstyle>
+                </e-chart-legendsettings>
             </ejs-chart>
         </div>
     </div>

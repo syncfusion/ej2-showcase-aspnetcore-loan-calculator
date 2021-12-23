@@ -30,5 +30,4 @@
     <Content Include="content\index.css" />
     <Content Include="content\styles.css" />
   </ItemGroup>
-
 </Project>

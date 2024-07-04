@@ -9,7 +9,7 @@ var yearValue;
 var monthValue;
 var yearTenure = true;
 var chart;
-var grid;
+var treegrid;
 var emi;
 var princ;
 var totalPrincipalYear = 0;
@@ -49,7 +49,7 @@ function refreshUI() {
      calRangeValues();
      renderControls();
      chart.refresh();
-     grid.refresh();
+     treegrid.refresh();
 }
 function loantenureChange() {
     tenure.setProperties({ value: loantenureObj.value });
@@ -176,7 +176,7 @@ window.default = function () {
     tenure = document.getElementById("loan_txt").ej2_instances[0];
     principal = document.getElementById("principal_txt").ej2_instances[0];
     datepickerObj = document.getElementById("monthStarter").ej2_instances[0];
-    grid = document.getElementById("scheduleGrid").ej2_instances[0];
+    treegrid = document.getElementById("treeGrid").ej2_instances[0];
     chart = document.getElementById("paymentGraph").ej2_instances[0];
     pricipalObj2 = document.getElementById("pricipal").ej2_instances[0];
     interestrateObj1 = document.getElementById("interestrate").ej2_instances[0];
@@ -220,22 +220,6 @@ function renderVisalComponents() {
     pie.series[0].dataSource = [{ "x": 'Principal Amount', "y": princ },
         { "x": 'Interest Amount', "y": ((emi * tent) - princ) }];
     pie.refresh();
-    grid.element.addEventListener('click', function (args) {
-        var target = args.target;
-        if (target.classList.contains('e-row-toggle') || target.parentElement.querySelector('.e-row-toggle')) {
-            target = target.parentElement.querySelector('.e-row-toggle') ? target.parentElement.querySelector('.e-row-toggle') : target;
-            if (target.classList.contains('e-icon-gdownarrow')) {
-                target.classList.remove('e-icon-gdownarrow');
-                target.classList.add('e-icon-grightarrow');
-                grid.detailRowModule.collapse(parseInt(ej.base.closest(target, 'tr').getAttribute('aria-rowindex'), 10));
-            }
-            else {
-                target.classList.remove('e-icon-grightarrow');
-                target.classList.add('e-icon-gdownarrow');
-                grid.detailRowModule.expand(parseInt(ej.base.closest(target, 'tr').getAttribute('aria-rowindex'), 10));
-            }
-        }
-    });
 }
 
 function refreshUI1() {
@@ -276,22 +260,28 @@ function calRangeValues() {
         totalPrincipalYear += parseFloat((emi - inter).toFixed(2));
         totalInterestYear += inter;
         dataUnits.push({
+            id: (i + 1),
             month: monthNames[dateObj.getMonth()],
             index: (i + 1),
             totalInterest: Math.round(totalInterest),
             totalAmount: totalAmount,
             emi: Math.round(emi),
-            year: dateObj.getFullYear(),
+            year: monthNames[dateObj.getMonth()],
             beginningBalance: Math.round(princ),
             interest: Math.round(inter),
             pricipalPaid: Math.round((emi - inter)),
-            endingBalance: Math.round(endBalance)
+            endingBalance: Math.round(endBalance),
+            parentId: dateObj.getFullYear(),
+            yearTotal: Math.round(yearTotal),
+            yearPrincipal: totalPrincipalYear,
+            yearInterest: totalInterestYear
         });
         if (i === 0 || dateObj.getMonth() === 0) {
             beginBalance = princ;
         }
         if (dateObj.getMonth() === 11 || (i === tent - 1)) {
             yearWiseData.push({
+                id: dateObj.getFullYear(),
                 beginningBalance: Math.round(beginBalance),
                 totalInterest: Math.round(totalInterest),
                 totalPrincipal: Math.round(totalPrincipal),
@@ -301,11 +291,14 @@ function calRangeValues() {
                 yearN: new Date(dateObj.getFullYear(), 0, 1),
                 year: dateObj.getFullYear(),
                 yearPrincipal: totalPrincipalYear,
-                yearInterest: totalInterestYear
+                yearInterest: totalInterestYear,
+                childRecord: dataUnits,
+                parentId: null,
             });
             yearTotal = 0;
             totalPrincipalYear = 0;
             totalInterestYear = 0;
+            dataUnits = [];
         }
         princ = endBalance;
         if (i < tent - 1) {
@@ -315,37 +308,14 @@ function calRangeValues() {
 }
 
 function renderControls() {
-    grid.setProperties({
-        dataSource: yearWiseData, childGrid: {
-            created: childCreated,
-            dataBound: childDataBound,
-            queryString: 'year',
-            columns: [
-                { field: 'month', headerText: 'Month', textAlign: 'center', minWidth: '80px' },
-                {
-                    field: 'emi', format: 'C0',
-                    hideAtMedia: '(min-width: 480px)', headerText: 'Payment', minWidth: '80px', textAlign: 'center'
-                },
-                { field: 'pricipalPaid', format: 'C0', headerText: 'Principal Paid', minWidth: '80px', textAlign: 'center' },
-                { field: 'interest', format: 'C0', headerText: 'Interest Paid', minWidth: '80px', textAlign: 'center' },
-                { field: 'endingBalance', format: 'C0', headerText: 'Balance', minWidth: '80px', textAlign: 'center' }
-            ],
-            dataSource: dataUnits
-        }
+    treegrid.setProperties({
+        dataSource: yearWiseData
     });
     chart.series[0].dataSource = yearWiseData;
     chart.series[1].dataSource = yearWiseData;
     chart.series[2].dataSource = yearWiseData;
 }
 
-function childCreated(args) {
-    this.getHeaderContent().style.display = 'none';
-    this.element.style.display = 'none';
-}
-
-function childDataBound(args) {
-    this.element.style.display = '';
-}
 
 function destroyComponents() {
     pricipalObj2.destroy();
@@ -356,7 +326,7 @@ function destroyComponents() {
     tenure.destroy();
     pie.destroy();
     chart.destroy();
-    grid.destroy();
+    treegrid.destroy();
     yearValue.destroy();
     monthValue.destroy();
     datepickerObj.destroy();

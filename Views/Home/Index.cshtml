@@ -198,15 +198,15 @@
     </div>
     <div class="row top-space loan-content max-content">
         <h6 class="center-heading">Amortization Schedule</h6>
-        <ejs-grid id="scheduleGrid" width="100%" childGrid="ViewBag.childGrid">
-            <e-grid-columns>
-                <e-grid-column field="Year" headerText="Year" minWidth="80px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" template="#columntemplate"></e-grid-column>
-                <e-grid-column field="yearTotal" headerText="Payment" minWidth="120px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" format="C0"></e-grid-column>
-                <e-grid-column field="yearPrincipal" headerText="Principal Paid" minWidth="120px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" format="C0"></e-grid-column>
-                <e-grid-column field="yearInterest" headerText="Interest Paid" minWidth="120px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" format="C0"></e-grid-column>
-                <e-grid-column field="endingBalance" headerText="Balance" minWidth="80px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" format="C0"></e-grid-column>
-            </e-grid-columns>
-        </ejs-grid>
+        <ejs-treegrid id="treeGrid" width="100%" enableCollapseAll="true" idMapping="id" parentIdMapping='parentId' childMapping="childRecord" treeColumnIndex="0">
+            <e-treegrid-columns>
+                <e-treegrid-column field="year" headerText="Year/Month" minWidth="80px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center"></e-treegrid-column>
+                <e-treegrid-column field="yearTotal" headerText="Payment" minWidth="120px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" format="C0" template="#columntemplate"></e-treegrid-column>
+                <e-treegrid-column field="yearPrincipal" headerText="Principal Paid" minWidth="120px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" format="C0"></e-treegrid-column>
+                <e-treegrid-column field="yearInterest" headerText="Interest Paid" minWidth="120px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" format="C0"></e-treegrid-column>
+                <e-treegrid-column field="endingBalance" headerText="Balance" minWidth="80px" textAlign="@Syncfusion.EJ2.Grids.TextAlign.Center" format="C0"></e-treegrid-column>
+            </e-treegrid-columns>
+        </ejs-treegrid>
     </div>
     <svg style="height: 0; width: 0;">
         <defs>
@@ -221,8 +221,11 @@
         </defs>
     </svg>
     <script id="columntemplate" type="text/x-template">
-        <div class="e-icons e-icon-grightarrow e-row-toggle"></div>
-        <span style="padding-left: 12px;">${year}</span>
+        ${if(parentItem)}
+        <span>$${emi}</span>
+        ${else}
+        <span>$${yearTotal}</span>
+        ${/if}
     </script>
 </div>
 <script src="~/scripts/index.js"></script>

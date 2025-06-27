@@ -1,3 +1,5 @@
+[![.NET](https://github.com/syncfusion/ej2-showcase-aspnetcore-loan-calculator/actions/workflows/dotnet.yml/badge.svg)](https://github.com/syncfusion/ej2-showcase-aspnetcore-loan-calculator/actions/workflows/dotnet.yml)
+
 # ej2-showcase-aspnetcore-loan-calculator
 Demo application that Calculates your loan payment based on your loan amount, interest and term.
 

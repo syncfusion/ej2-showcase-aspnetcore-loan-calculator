@@ -162,7 +162,7 @@ function paymentGraphChartMouseup(args) {
     }
 }
 
-function paymentGraphAxisLabelRender() {
+function paymentGraphAxisLabelRender(args) {
     if (window.innerWidth < 576) {
         if (args.axis.name === 'primaryYAxis' || args.axis.name === 'yAxis') {
             var value = Number(args.value) / 1000;
